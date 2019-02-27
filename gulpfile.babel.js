@@ -2,9 +2,7 @@ import gulp from 'gulp';
 
 // Requires the gulp-sass plugin
 import sass from 'gulp-sass';
-
 import useref from 'gulp-useref';
-const browserSync = require('browser-sync').create();
 import uglify from 'gulp-uglify';
 import gulpIf from 'gulp-if';
 import imagemin from 'gulp-imagemin';
@@ -13,6 +11,8 @@ import del from 'del';
 import gulpSequence from 'gulp-sequence';
 import sourcemaps from 'gulp-sourcemaps';
 import autoprefixer from 'gulp-autoprefixer';
+const browserSync = require('browser-sync').create();
+const babel = require('gulp-babel');
 
 gulp.task('clean:dist', () => del.sync('dist'))
 
@@ -29,18 +29,6 @@ gulp.task('sass', () => gulp.src('src/styles/**/*.scss')
     stream: true
   })));
 
-gulp.task('sass_prod', () => gulp.src('src/styles/**/*.scss')
-  .pipe(sass()) // Using gulp-sass
-  .pipe(autoprefixer({
-      browsers: ['last 4 versions'],
-      cascade: false
-  }))
-  .pipe(cleanCSS({compatibility: 'ie11'}))
-  .pipe(gulp.dest('dist/styles/'))
-  .pipe(browserSync.reload({
-    stream: true
-  })));
-
 gulp.task('html', () => gulp.src('src/**/*.html')
   .pipe(gulp.dest('dist'))
   .pipe(browserSync.reload({
@@ -48,21 +36,11 @@ gulp.task('html', () => gulp.src('src/**/*.html')
   }))
 );
 gulp.task('javascript', () => gulp.src('src/**/*.+(js|json)')
+  .pipe(babel())
   .pipe(gulp.dest('dist/'))
   .pipe(browserSync.reload({
     stream: true
   })));
-
-gulp.task('javascript_prod', () => gulp.src('src/**/*.js')
-  .pipe(gulpIf('*.js', uglify()))
-  .pipe(gulp.dest('dist'))
-);
-
-gulp.task('images_prod', () => gulp.src('src/images/**/*.+(png|jpg|gif|svg)')
-.pipe(cache(imagemin({
-    interlaced: true
-  })))
-.pipe(gulp.dest('dist/images')));
 
 gulp.task('images', () => gulp.src('src/images/**/*.+(png|jpg|gif|svg)')
 .pipe(gulp.dest('dist/images')));
@@ -93,15 +71,6 @@ gulp.task('watch', () => {
 
 gulp.task('default', callback => {
   gulpSequence(['sass', 'html', 'javascript', 'images', 'useref', 'browserSync'], 'watch',
-    callback
-  )
-})
-
-gulp.task('build', callback => {
-  gulpSequence(
-    'clean:dist',
-    'sass_prod',
-    ['useref', 'javascript_prod', 'images_prod', 'html'],
     callback
   )
 })
