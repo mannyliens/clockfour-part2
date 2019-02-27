@@ -1,7 +1,7 @@
 # Front-end Dev Assessment (~2 hours)
 
 ## Thanks for taking our assessment! Read this document thoroughly before you start.
-
+---
 
 1. Build a responsive landing page based on the specs provided in this document. **The most important part of this task is that the finished landing page matches the design comps included as closely as possible. Attention to detail in this area is key.**
 
