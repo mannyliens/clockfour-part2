@@ -5,7 +5,7 @@
 
 1. Build a responsive landing page based on the specs provided in this document. The design was created mobile-first and we suggest you work that way as well. **The most important part of this task is that the finished landing page matches the design comps included as closely as possible. Attention to detail in this area is key.**
 
-2. A simple gulp-based dev environment has been provided. It provides a starting point. Simply run npm install, and then npm start.
+2. A simple gulp-based dev environment has been provided. It provides a starting point. Simply run npm install, and then npm start. Work on the files in src/.
 
 3. You are free to use Bootstrap and jQuery. Both are already included via CDN. 
 
